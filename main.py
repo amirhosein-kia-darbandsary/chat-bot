@@ -7,7 +7,7 @@ from chat.ask_gpt import OpenAIAdapter
 from chat.facade import ChatService
 from handler.checkers import pending_emergency, check_rate_limit
 from handler.message_handlers import cancel_emergency, process_message, handle_emergency
-
+from handler.get_status import get_work_status
 # ================= CONFIG =================
 load_dotenv()
 
@@ -26,6 +26,9 @@ assistent = ChatService(OpenAIAdapter(api_key=api_key_host))
 # ---------------------------
 @client.on(events.NewMessage(incoming=True))
 async def handler(event):
+    WORK_STATUS = get_work_status()
+    if WORK_STATUS == "free":
+        return
     if not event.is_private:
         return
 
@@ -39,7 +42,9 @@ async def handler(event):
             "اگر پیام اضطراری باشد، اطلاع‌رسانی از طریق پیامک انجام خواهد شد."
         )
         return
+    
 
+    
     if user_id in pending_emergency:
         if text in ("1", "۱"):
             await handle_emergency(user_id, sender, event, text)
@@ -51,7 +56,7 @@ async def handler(event):
     await process_message(event, text, status_prompt, assistent)
 
 
-async def main():
+async def main():        
     await client.start()
     print("Telegram auto-reply is running...")
     await client.run_until_disconnected()
