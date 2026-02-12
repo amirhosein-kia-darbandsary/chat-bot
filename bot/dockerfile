@@ -1,0 +1,10 @@
+FROM python:3.12-slim
+
+WORKDIR /bot
+
+COPY req.txt .
+RUN pip install --no-cache-dir -r req.txt
+
+COPY . .
+
+CMD ["python3", "controll_bot.py"]

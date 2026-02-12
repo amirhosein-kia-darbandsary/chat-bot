@@ -1,0 +1,13 @@
+telethon
+requests
+python-dotenv
+openai
+zeep 
+aiohttp
+asyncio
+uvicorn
+
+melipayamak
+fastapi
+uvicorn
+python-telegram-bot

@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ./api
+    container_name: chat_api
+    ports:
+      - "9999:9999"
+
+
+  bot:
+    build:
+      context: ./bot
+    container_name: chat_bot
+    environment:
+          GET_STATUS: http://api:9999
+          TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+    depends_on:
+      - api
+    command:
+      
+
+
+  main:
+    build:
+      context: .
+    container_name: chat_main
+    environment:
+      API_ID: ${API_ID}
+      API_HASH: ${API_HASH}
+      SESSION: ${SESSION}
+      OPEN_API_KEY: ${OPEN_API_KEY}
+      SMS_API_KEY: ${SMS_API_KEY}
+      USERNAME_SMS: ${USERNAME_SMS}
+    depends_on:
+      - api
+
