@@ -7,6 +7,9 @@ services:
     container_name: chat_api
     ports:
       - "9999:9999"
+    command:
+      "uvicorn app:app --host 0.0.0.0 --port 9999"
+    restart: always
 
 
   bot:
@@ -14,13 +17,16 @@ services:
       context: ./bot
     container_name: chat_bot
     environment:
-          GET_STATUS: http://api:9999
+          GET_STATUS: http://localhost:9999
           TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
     depends_on:
       - api
+    tty: true
+    stdin_open: true
+    network_mode: host
+    restart: always
     command:
-      
-
+      "python3 controll_bot.py"
 
   main:
     build:
@@ -35,4 +41,10 @@ services:
       USERNAME_SMS: ${USERNAME_SMS}
     depends_on:
       - api
+    network_mode: host
+    tty: true
+    stdin_open: true
+    restart: always
+    command:
+      "python3 main.py"
 
