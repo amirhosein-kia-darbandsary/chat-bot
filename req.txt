@@ -10,3 +10,4 @@ uvicorn
 melipayamak
 fastapi
 uvicorn
+python-telegram-bot
