@@ -5,7 +5,7 @@ openai
 zeep 
 aiohttp
 asyncio
-
+uvicorn
 
 melipayamak
 fastapi
