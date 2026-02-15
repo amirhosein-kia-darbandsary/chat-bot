@@ -22,4 +22,4 @@ def check_rate_limit(user_id):
     else:
         user_usage[user_id] = {"count": 1, "first_request_time": now}
 
-    return True, user_usage.get(user_id).get('count')
+    return True

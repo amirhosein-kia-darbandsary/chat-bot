@@ -55,13 +55,9 @@ async def handler(event):
     # ---------------------------
     # Rate limit
     # ---------------------------
-    allowed, count = check_rate_limit(user_id)
+    allowed = check_rate_limit(user_id)
 
     if not allowed:
-        await event.reply(
-            "شما به محدودیت روزانه پیام رسیده‌اید.\n"
-            "اگر موضوع اضطراری است عدد 1 را ارسال کنید."
-        )
         return
 
     # ---------------------------
@@ -86,6 +82,14 @@ async def handler(event):
         # ---------- CANCEL ----------
         else:
             await cancel_emergency(user_id, sender, event)
+            status_prompt = WORK_STATUS_PROMPTS.get(work_status, "")
+
+            await process_message(
+                event=event,
+                text=text,
+                status_prompt=status_prompt,
+                assistent=assistent,
+            )
 
         return
 
