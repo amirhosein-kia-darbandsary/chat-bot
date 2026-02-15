@@ -55,7 +55,7 @@ async def handler(event):
     # ---------------------------
     # Rate limit
     # ---------------------------
-    allowed = check_rate_limit(user_id)
+    allowed = check_rate_limit(user_id, text)
 
     if not allowed:
         return
