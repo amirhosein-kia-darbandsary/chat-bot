@@ -1,0 +1,9 @@
+API_ID=
+API_HASH=
+SESSION="session file of your telegram"
+OPEN_API_KEY="take it from ChatGpt"
+SMS_API_KEY="related to your message broker"
+USERNAME_SMS="related to your message broker"
+GET_STATUS=http://127.0.0.1:9999/status
+TELEGRAM_BOT_TOKEN="take it from bot father"
+RESUME_PATH="directory-path"
