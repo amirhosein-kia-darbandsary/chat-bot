@@ -14,13 +14,32 @@ def check_rate_limit(user_id, text):
 
     if usage:
         if now - usage["first_request_time"] < WINDOW:
+
+            user_sms_emergency = usage.get("user_sms_emergency", False)
+
             if usage["count"] >= DAILY_LIMIT:
-                if len(text)==1 and text in ("1","۱", "2","۲"):return True
-                return False  
+
+                if text.strip() in ("1", "۱", "2", "۲") and not user_sms_emergency:
+                    usage["user_sms_emergency"] = True
+                    usage["count"] += 1
+                    return True
+
+                return False
+
             usage["count"] += 1
+
         else:
-            user_usage[user_id] = {"count": 1, "first_request_time": now}
+            user_usage[user_id] = {
+                "count": 1,
+                "first_request_time": now,
+                "user_sms_emergency": False
+            }
+
     else:
-        user_usage[user_id] = {"count": 1, "first_request_time": now}
+        user_usage[user_id] = {
+            "count": 1,
+            "first_request_time": now,
+            "user_sms_emergency": False
+        }
 
     return True
