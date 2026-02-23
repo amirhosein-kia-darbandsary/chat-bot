@@ -55,7 +55,7 @@ async def handler(event):
     # ---------------------------
     # Rate limit
     # ---------------------------
-    allowed = check_rate_limit(user_id, text)
+    allowed, count = check_rate_limit(user_id, text)
 
     if not allowed:
         return
@@ -89,6 +89,7 @@ async def handler(event):
                 text=text,
                 status_prompt=status_prompt,
                 assistent=assistent,
+                number_of_ask=count
             )
 
         return
@@ -103,6 +104,7 @@ async def handler(event):
         text=text,
         status_prompt=status_prompt,
         assistent=assistent,
+        number_of_ask=count
     )
 
 

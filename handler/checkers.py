@@ -5,7 +5,7 @@ from datetime import timedelta, datetime
 # ---------------------------
 pending_emergency = {}  
 user_usage = {}         
-DAILY_LIMIT = 3
+DAILY_LIMIT = 5
 WINDOW = timedelta(hours=24)
 
 def check_rate_limit(user_id, text):
@@ -30,7 +30,7 @@ def check_rate_limit(user_id, text):
 
         else:
             user_usage[user_id] = {
-                "count": 1,
+                "count": 0,
                 "first_request_time": now,
                 "user_sms_emergency": False
             }
@@ -42,4 +42,5 @@ def check_rate_limit(user_id, text):
             "user_sms_emergency": False
         }
 
-    return True
+    count = user_usage.get(user_id).get('count', 0)
+    return True, count
